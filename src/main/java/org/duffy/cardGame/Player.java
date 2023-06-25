@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class Player {
     private String name;
-    private List<Card> handCards;
+    private List<Card> holdingCards;
 
     public abstract void play();
     public abstract void draw();
