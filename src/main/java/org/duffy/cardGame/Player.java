@@ -6,7 +6,6 @@ public abstract class Player {
     private String name;
     private List<Card> holdingCards;
 
-    public abstract void play();
     public abstract void draw();
 
     public String getName() {return this.name;}
