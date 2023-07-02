@@ -3,8 +3,8 @@ package org.duffy.game_of_life;
 import java.util.List;
 
 public class GameOfLife {
-    private static final int ROW = 100;
-    private static final int COL = 100;
+    private static final int ROW = 11;
+    private static final int COL = 11;
     private static CellStatus[][] grid = new CellStatus[COL][ROW];
     private static CellStatus[][] future = new CellStatus[COL][ROW];
     private static int[] yDirections = {1, 1, 0, -1, -1, -1, 0, 1};
@@ -16,26 +16,26 @@ public class GameOfLife {
 
         for (int i = 0; i < ROW; i++) {
             for (int j = 0; j < COL; j++) {
-                nextGeneration(i, j);
+                nextGenerationCell(j, i);
             }
         }
-        print(future);
         grid = future;
+        print(grid);
     }
 
     private static void initCells(List<Pair> starts) {
         for (int i = 0; i < ROW; i++) {
             for (int j = 0; j < COL; j++) {
-                setCellDead(new Pair(j, i));
+                grid[i][j] = CellStatus.DEAD;
             }
         }
 
         for (Pair start: starts) {
-            setCellLive(start);
+            grid[start.getY()][start.getX()] = CellStatus.LIVE;
         }
     }
 
-    private static void nextGeneration(int x, int y) {
+    private static void nextGenerationCell(int x, int y) {
         Pair now = new Pair(x, y);
         CellStatus cell = getCell(now);
         int aliveNeighboursCount = getAliveNeighboursCount(now);
@@ -62,7 +62,7 @@ public class GameOfLife {
         for (int i = 0; i < 8; i++) {
             Pair next = now.getNewMovedPair(xDirections[i], yDirections[i]);
             if (next.isValid(COL, ROW)) {
-                if (next.equals(CellStatus.LIVE))
+                if (getCell(next).equals(CellStatus.LIVE))
                     count++;
             }
         }
