@@ -37,36 +37,50 @@ public class GameOfLife {
 
     private static void nextGenerationCell(int x, int y) {
         Pair now = new Pair(x, y);
-        CellStatus cell = getCell(now);
-        int aliveNeighboursCount = getAliveNeighboursCount(now);
-        if (cell.equals(CellStatus.LIVE)) {
-            if (aliveNeighboursCount < 2 || 3 < aliveNeighboursCount) {
-                setCellDead(now);
-            }
+        CellStatus status = getCellStatus(now);
+        int aliveNeighboursCount = countAliveNeighbours(now);
+
+        if (isCellDead(status, aliveNeighboursCount)) {
+            setCellDead(now);
         }
-        else if (cell.equals(CellStatus.DEAD)) {
-            if (aliveNeighboursCount == 3)  {
-                setCellLive(now);
-            }
+        else if (isCellLive(status, aliveNeighboursCount)) {
+            setCellLive(now);
         }
-        else
+        else {
             remainsSame(now);
+        }
     }
 
-    private static CellStatus getCell(Pair pair) {
-        return grid[pair.getY()][pair.getX()];
+    private static CellStatus getCellStatus(Pair now) {
+        return grid[now.getY()][now.getX()];
     }
 
-    private static int getAliveNeighboursCount(Pair now) {
+    private static int countAliveNeighbours(Pair now) {
         int count = 0;
         for (int i = 0; i < 8; i++) {
             Pair next = now.getNewMovedPair(xDirections[i], yDirections[i]);
             if (next.isValid(COL, ROW)) {
-                if (getCell(next).equals(CellStatus.LIVE))
+                if (getCellStatus(next).equals(CellStatus.LIVE))
                     count++;
             }
         }
         return count;
+    }
+
+    private static boolean isCellDead(CellStatus status, int aliveNeighboursCount) {
+        if (status.equals(CellStatus.LIVE)) {
+            if (aliveNeighboursCount < 2 || 3 < aliveNeighboursCount)
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean isCellLive(CellStatus status, int aliveNeighboursCount) {
+        if (status.equals(CellStatus.DEAD)) {
+            if (aliveNeighboursCount == 3)
+                return true;
+        }
+        return false;
     }
 
     private static void setCellLive(Pair pair) {
