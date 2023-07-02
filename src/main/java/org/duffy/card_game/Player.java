@@ -1,4 +1,4 @@
-package org.duffy.cardGame;
+package org.duffy.card_game;
 
 import java.util.List;
 

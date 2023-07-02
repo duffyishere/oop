@@ -1,4 +1,4 @@
-package org.duffy.cardGame;
+package org.duffy.card_game;
 
 public enum Suite {
     SPADE,
