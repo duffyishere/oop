@@ -3,10 +3,13 @@ package org.duffy.chess.board;
 import org.duffy.chess.Location;
 import org.duffy.chess.piece.ChessPiece;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class ChessBoard {
     private static ChessBoard instance;
+    public static final int WIDTH = 8;
+    public static final int HEIGHT = 8;
 
     public ChessPiece[][] board = new ChessPiece[8][8];
 

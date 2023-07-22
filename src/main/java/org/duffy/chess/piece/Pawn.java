@@ -19,12 +19,11 @@ public class Pawn extends ChessPiece {
         Location now = getLocation();
         List<Location> paths = new ArrayList<>();
 
-        if (getTeam().equals(Team.WHITE)) {
+        if (getTeam().equals(Team.BLACK)) {
             paths.addAll(getMovableStraightPaths(boards, now));
             paths.addAll(getMovableLeftDiagonal(boards, now));
             paths.addAll(getMovableRightDiagonal(boards, now));
         }
-        // When color's Black
         else {
 
         }
@@ -42,14 +41,20 @@ public class Pawn extends ChessPiece {
         return paths;
     }
 
-    private boolean checkStraightAhead(ChessBoard boards, Location now) {
-        Optional<ChessPiece> moveToNextBlock = boards.getPiece(new Location(now.row() + 1, now.col()));
+    private boolean checkStraightAhead(ChessBoard board, Location now) {
+        Location nextBlockLocation = new Location(now.row() + 1, now.col());
+        if (!nextBlockLocation.isValid()) return false;
+
+        Optional<ChessPiece> moveToNextBlock = board.getPiece(nextBlockLocation);
         if (moveToNextBlock.isEmpty()) return true;
         else return false;
     }
 
-    private boolean checkStraightTwoAhead(ChessBoard boards, Location now) {
-        Optional<ChessPiece> moveToNextBlock = boards.getPiece(new Location(now.row() + 2, now.col()));
+    private boolean checkStraightTwoAhead(ChessBoard board, Location now) {
+        Location nextBlockLocation = new Location(now.row() + 2, now.col());
+        if (!nextBlockLocation.isValid()) return false;
+
+        Optional<ChessPiece> moveToNextBlock = board.getPiece(nextBlockLocation);
         if (isFirstMove(now) && moveToNextBlock.isEmpty()) return true;
         else return false;
     }
@@ -67,7 +72,10 @@ public class Pawn extends ChessPiece {
     }
 
     private boolean checkLeftDiagonalAhead(ChessBoard board, Location now) {
-        Optional<ChessPiece> moveToNextBlock = board.getPiece(new Location(now.row() + 1, now.col() - 1));
+        Location nextBlockLocation = new Location(now.row() + 1, now.col() - 1);
+        if (!nextBlockLocation.isValid()) return false;
+
+        Optional<ChessPiece> moveToNextBlock = board.getPiece(nextBlockLocation);
         if (moveToNextBlock.isPresent() && isEnemy(moveToNextBlock.get())) return true;
         else return false;
     }
@@ -81,7 +89,10 @@ public class Pawn extends ChessPiece {
     }
 
     private boolean checkRightDiagonalAhead(ChessBoard board, Location now) {
-        Optional<ChessPiece> moveToNextBlock = board.getPiece(new Location(now.row() + 1, now.col() + 1));
+        Location nextBlockLocation = new Location(now.row() + 1, now.col() + 1);
+        if (!nextBlockLocation.isValid()) return false;
+
+        Optional<ChessPiece> moveToNextBlock = board.getPiece(nextBlockLocation);
         if (moveToNextBlock.isPresent() && isEnemy(moveToNextBlock.get())) return true;
         else return false;
     }
