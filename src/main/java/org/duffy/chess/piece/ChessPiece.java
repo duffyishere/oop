@@ -2,7 +2,6 @@ package org.duffy.chess.piece;
 
 import org.duffy.chess.Team;
 import org.duffy.chess.Location;
-import org.duffy.chess.board.ChessBoard;
 
 import java.util.List;
 
@@ -15,13 +14,15 @@ public abstract class ChessPiece {
         this.location = location;
     }
 
-    public void moved(Location location) {
-        this.location = location;
-    }
-
     public Location getLocation() { return location; }
-    public ChessPiece[][] getBoard() { return ChessBoard.getInstance().board; }
-    public Team getColor() { return getColor(); }
+    public Team getTeam() { return team; }
+
+    public void moved(Location location) { this.location = location; }
+    public boolean isEnemy(ChessPiece piece) {
+        if (piece.getTeam().equals(team))
+            return false;
+        else return true;
+    }
 
     public abstract List<Location> showMovablePaths();
     public abstract boolean canMoved(Location destination);

@@ -3,6 +3,8 @@ package org.duffy.chess.board;
 import org.duffy.chess.Location;
 import org.duffy.chess.piece.ChessPiece;
 
+import java.util.Optional;
+
 public class ChessBoard {
     private static ChessBoard instance;
 
@@ -17,16 +19,17 @@ public class ChessBoard {
         return instance;
     }
 
-    public void setup() {
+    private void setup() {
         for (int col = 0; col < 8; col++) {
         }
     }
 
     public void move(Location from, Location to) {
-        ChessPiece piece = board[from.row()][from.col()];
-        if (piece == null)
+        Optional<ChessPiece> pieceOptional = getPiece(from);
+        if (pieceOptional.isEmpty())
             throw new IllegalArgumentException("Here is empty blank");
 
+        ChessPiece piece = pieceOptional.get();
         if (piece.canMoved(to)) {
             board[to.row()][to.col()] = piece;
             board[from.row()][from.col()] = null;
@@ -34,5 +37,9 @@ public class ChessBoard {
         }
         else
             throw new IllegalArgumentException(piece.toString() + " is can't go " + to.toString());
+    }
+
+    public Optional<ChessPiece> getPiece(Location location) {
+        return Optional.ofNullable(board[location.row()][location.col()]);
     }
 }
