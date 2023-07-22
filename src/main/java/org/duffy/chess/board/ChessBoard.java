@@ -6,7 +6,7 @@ import org.duffy.chess.piece.ChessPiece;
 public class ChessBoard {
     private static ChessBoard instance;
 
-    private ChessPiece[][] board = new ChessPiece[8][8];
+    public ChessPiece[][] board = new ChessPiece[8][8];
 
     private ChessBoard() {}
 

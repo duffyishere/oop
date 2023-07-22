@@ -1,8 +1,8 @@
 package org.duffy.chess;
 
 public record Location(
-        int col,
-        int row
+        int row,
+        int col
 ) {
 
     @Override
