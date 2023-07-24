@@ -42,4 +42,8 @@ public class Chess {
     public Optional<ChessPiece> getPiece(Location location) {
         return Optional.ofNullable(board[location.row()][location.col()]);
     }
+
+    public void exceptPiece(Location location) {
+        board[location.row()][location.col()] = null;
+    }
 }

@@ -1,5 +1,6 @@
 package org.duffy.chess.piece;
 
+import org.duffy.chess.Chess;
 import org.duffy.chess.Team;
 import org.duffy.chess.Location;
 
@@ -22,6 +23,12 @@ public abstract class ChessPiece {
         if (piece.getTeam().equals(team))
             return false;
         else return true;
+    }
+
+    public void kill(ChessPiece piece) { piece.death(); }
+    public void death() {
+        Chess.getInstance().exceptPiece(location);
+        location = null;
     }
 
     public abstract List<Location> showMovablePaths();
