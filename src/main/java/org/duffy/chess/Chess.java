@@ -1,21 +1,20 @@
-package org.duffy.chess.board;
+package org.duffy.chess;
 
-import org.duffy.chess.Location;
 import org.duffy.chess.piece.ChessPiece;
 
 import java.util.Optional;
 
-public class ChessBoard {
-    private static ChessBoard instance;
+public class Chess {
+    private static Chess instance;
 
-    public static final int WIDTH = 8, HEIGHT = 8;
-    public ChessPiece[][] board = new ChessPiece[HEIGHT][WIDTH];
+    public static final int BOARD_WIDTH = 8, BOARD_HEIGHT = 8;
+    public ChessPiece[][] board = new ChessPiece[BOARD_HEIGHT][BOARD_WIDTH];
 
-    private ChessBoard() {}
+    private Chess() {}
 
-    public static synchronized ChessBoard getInstance() {
+    public static synchronized Chess getInstance() {
         if (instance == null)
-            instance = new ChessBoard();
+            instance = new Chess();
 
         return instance;
     }

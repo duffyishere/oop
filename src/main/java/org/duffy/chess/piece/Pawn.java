@@ -2,7 +2,7 @@ package org.duffy.chess.piece;
 
 import org.duffy.chess.Team;
 import org.duffy.chess.Location;
-import org.duffy.chess.board.ChessBoard;
+import org.duffy.chess.Chess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class Pawn extends ChessPiece {
 
     @Override
     public List<Location> showMovablePaths() {
-        ChessBoard boards = ChessBoard.getInstance();
+        Chess boards = Chess.getInstance();
         Location now = getLocation();
         List<Location> paths = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class Pawn extends ChessPiece {
         return paths;
     }
 
-    private List<Location> getMovableStraightPaths(ChessBoard boards, Location now) {
+    private List<Location> getMovableStraightPaths(Chess boards, Location now) {
         List<Location> paths = new ArrayList<>();
         if (checkStraightAhead(boards, now))
             paths.add(new Location(now.row() + 1, now.col()));
@@ -41,7 +41,7 @@ public class Pawn extends ChessPiece {
         return paths;
     }
 
-    private boolean checkStraightAhead(ChessBoard board, Location now) {
+    private boolean checkStraightAhead(Chess board, Location now) {
         Location nextBlockLocation = new Location(now.row() + 1, now.col());
         if (!nextBlockLocation.isValid()) return false;
 
@@ -50,7 +50,7 @@ public class Pawn extends ChessPiece {
         else return false;
     }
 
-    private boolean checkStraightTwoAhead(ChessBoard board, Location now) {
+    private boolean checkStraightTwoAhead(Chess board, Location now) {
         Location nextBlockLocation = new Location(now.row() + 2, now.col());
         if (!nextBlockLocation.isValid()) return false;
 
@@ -63,7 +63,7 @@ public class Pawn extends ChessPiece {
         return now.row() == 1;
     }
 
-    private List<Location> getMovableLeftDiagonal(ChessBoard board, Location now) {
+    private List<Location> getMovableLeftDiagonal(Chess board, Location now) {
         List<Location> paths = new ArrayList<>();
         if (checkLeftDiagonalAhead(board, now))
             paths.add(new Location(now.row() + 1, now.col() - 1));
@@ -71,7 +71,7 @@ public class Pawn extends ChessPiece {
         return paths;
     }
 
-    private boolean checkLeftDiagonalAhead(ChessBoard board, Location now) {
+    private boolean checkLeftDiagonalAhead(Chess board, Location now) {
         Location nextBlockLocation = new Location(now.row() + 1, now.col() - 1);
         if (!nextBlockLocation.isValid()) return false;
 
@@ -80,7 +80,7 @@ public class Pawn extends ChessPiece {
         else return false;
     }
 
-    private List<Location> getMovableRightDiagonal(ChessBoard board, Location now) {
+    private List<Location> getMovableRightDiagonal(Chess board, Location now) {
         List<Location> paths = new ArrayList<>();
         if (checkRightDiagonalAhead(board, now))
             paths.add(new Location(now.row() + 1, now.col() + 1));
@@ -88,7 +88,7 @@ public class Pawn extends ChessPiece {
         return paths;
     }
 
-    private boolean checkRightDiagonalAhead(ChessBoard board, Location now) {
+    private boolean checkRightDiagonalAhead(Chess board, Location now) {
         Location nextBlockLocation = new Location(now.row() + 1, now.col() + 1);
         if (!nextBlockLocation.isValid()) return false;
 

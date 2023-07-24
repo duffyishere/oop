@@ -1,7 +1,5 @@
 package org.duffy.chess;
 
-import org.duffy.chess.board.ChessBoard;
-
 public record Location(
         int row,
         int col
@@ -13,6 +11,6 @@ public record Location(
     }
 
     public boolean isValid() {
-        return 0 <= row && row < ChessBoard.WIDTH && 0 <= col && col < ChessBoard.HEIGHT;
+        return 0 <= row && row < Chess.BOARD_WIDTH && 0 <= col && col < Chess.BOARD_HEIGHT;
     }
 }
