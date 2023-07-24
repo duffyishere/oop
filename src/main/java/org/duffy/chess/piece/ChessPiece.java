@@ -25,8 +25,10 @@ public abstract class ChessPiece {
         else return true;
     }
 
-    public void kill(ChessPiece piece) { piece.death(); }
-    public void death() {
+    public void kill(ChessPiece piece) {
+        piece.dead();
+    }
+    public void dead() {
         Chess.getInstance().exceptPiece(location);
         location = null;
     }
