@@ -38,8 +38,12 @@ public class Pawn extends ChessPiece {
         return paths;
     }
 
-    private boolean isFirstMove(Location now) {
+    private boolean isFirstMoveWhite(Location now) {
         return now.row() == 1;
+    }
+
+    private boolean isFirstMoveBlack(Location now) {
+        return now.row() == Chess.BOARD_HEIGHT - 2;
     }
 
     public boolean canMove(int index, Location next) {
@@ -55,7 +59,9 @@ public class Pawn extends ChessPiece {
             Optional<ChessPiece> nextPiece = Chess.getInstance().getPiece(next);
             if (nextPiece.isEmpty())
                 return true;
-            if (isFirstMove(now))
+            if (getTeam() == Team.WHITE && isFirstMoveWhite(now))
+                return true;
+            else if (getTeam() == Team.BLACK && isFirstMoveBlack(now))
                 return true;
         }
 
