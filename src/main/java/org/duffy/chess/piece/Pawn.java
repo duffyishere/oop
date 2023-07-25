@@ -63,11 +63,6 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public boolean canMove(Location location) {
-        return this.showMovablePaths().contains(location);
-    }
-
-    @Override
     public String toString() {
         return "Pawn";
     }

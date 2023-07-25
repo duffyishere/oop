@@ -34,6 +34,8 @@ public abstract class ChessPiece {
     }
 
     public abstract List<Location> showMovablePaths();
-    public abstract boolean canMove(Location location);
+    public boolean canMove(Location location) {
+        return showMovablePaths().contains(location);
+    };
     public abstract String toString();
 }
