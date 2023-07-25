@@ -9,97 +9,62 @@ import java.util.List;
 import java.util.Optional;
 
 public class Pawn extends ChessPiece {
+    private final Location[] MOVABLE_DIRECTIONS_BLACK_TEAM = { new Location(1, -1), new Location(1, 0), new Location(1, 1) };
+    private final Location[] MOVABLE_DIRECTIONS_WHITE_TEAM = { new Location(-1, -1), new Location(-1, 0), new Location(-1, 1) };
+
     public Pawn(Team team, Location location) {
         super(team, location);
     }
 
     @Override
     public List<Location> showMovablePaths() {
-        Chess boards = Chess.getInstance();
-        Location now = getLocation();
         List<Location> paths = new ArrayList<>();
-
+        Location now = getLocation();
         if (getTeam().equals(Team.BLACK)) {
-            paths.addAll(getMovableStraightPaths(boards, now));
-            paths.addAll(getMovableLeftDiagonal(boards, now));
-            paths.addAll(getMovableRightDiagonal(boards, now));
+            for (int i = 0; i < MOVABLE_DIRECTIONS_BLACK_TEAM.length; i++) {
+                Location next = now.sum(MOVABLE_DIRECTIONS_BLACK_TEAM[i]);
+                if (canMove(i, next))
+                    paths.add(next);
+            }
         }
         else {
-
+            for (int i = 0; i < MOVABLE_DIRECTIONS_WHITE_TEAM.length; i++) {
+                Location next = now.sum(MOVABLE_DIRECTIONS_WHITE_TEAM[i]);
+                if (canMove(i, next))
+                    paths.add(next);
+            }
         }
 
         return paths;
-    }
-
-    private List<Location> getMovableStraightPaths(Chess boards, Location now) {
-        List<Location> paths = new ArrayList<>();
-        if (checkStraightAhead(boards, now))
-            paths.add(new Location(now.row() + 1, now.col()));
-        if (checkStraightTwoAhead(boards, now))
-            paths.add(new Location(now.row() + 2, now.col()));
-
-        return paths;
-    }
-
-    private boolean checkStraightAhead(Chess board, Location now) {
-        Location nextBlockLocation = new Location(now.row() + 1, now.col());
-        if (!nextBlockLocation.isValid()) return false;
-
-        Optional<ChessPiece> moveToNextBlock = board.getPiece(nextBlockLocation);
-        if (moveToNextBlock.isEmpty()) return true;
-        else return false;
-    }
-
-    private boolean checkStraightTwoAhead(Chess board, Location now) {
-        Location nextBlockLocation = new Location(now.row() + 2, now.col());
-        if (!nextBlockLocation.isValid()) return false;
-
-        Optional<ChessPiece> moveToNextBlock = board.getPiece(nextBlockLocation);
-        if (isFirstMove(now) && moveToNextBlock.isEmpty()) return true;
-        else return false;
     }
 
     private boolean isFirstMove(Location now) {
         return now.row() == 1;
     }
 
-    private List<Location> getMovableLeftDiagonal(Chess board, Location now) {
-        List<Location> paths = new ArrayList<>();
-        if (checkLeftDiagonalAhead(board, now))
-            paths.add(new Location(now.row() + 1, now.col() - 1));
+    public boolean canMove(int index, Location next) {
+        Location now = getLocation();
 
-        return paths;
-    }
+        if (!next.isValid()) return false;
+        if (index == 0 || index == 2) {
+            Optional<ChessPiece> nextPiece = Chess.getInstance().getPiece(next);
+            if (nextPiece.isPresent() && nextPiece.get().getTeam() != getTeam())
+                return true;
+        }
+        else if (index == 1) {
+            Optional<ChessPiece> nextPiece = Chess.getInstance().getPiece(next);
+            if (nextPiece.isEmpty())
+                return true;
+            if (isFirstMove(now))
+                return true;
+        }
 
-    private boolean checkLeftDiagonalAhead(Chess board, Location now) {
-        Location nextBlockLocation = new Location(now.row() + 1, now.col() - 1);
-        if (!nextBlockLocation.isValid()) return false;
-
-        Optional<ChessPiece> moveToNextBlock = board.getPiece(nextBlockLocation);
-        if (moveToNextBlock.isPresent() && isEnemy(moveToNextBlock.get())) return true;
-        else return false;
-    }
-
-    private List<Location> getMovableRightDiagonal(Chess board, Location now) {
-        List<Location> paths = new ArrayList<>();
-        if (checkRightDiagonalAhead(board, now))
-            paths.add(new Location(now.row() + 1, now.col() + 1));
-
-        return paths;
-    }
-
-    private boolean checkRightDiagonalAhead(Chess board, Location now) {
-        Location nextBlockLocation = new Location(now.row() + 1, now.col() + 1);
-        if (!nextBlockLocation.isValid()) return false;
-
-        Optional<ChessPiece> moveToNextBlock = board.getPiece(nextBlockLocation);
-        if (moveToNextBlock.isPresent() && isEnemy(moveToNextBlock.get())) return true;
-        else return false;
+        return false;
     }
 
     @Override
-    public boolean canMoved(Location destination) {
-        return this.showMovablePaths().contains(destination);
+    public boolean canMove(Location location) {
+        return this.showMovablePaths().contains(location);
     }
 
     @Override

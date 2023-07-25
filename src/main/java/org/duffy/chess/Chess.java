@@ -30,7 +30,7 @@ public class Chess {
             throw new IllegalArgumentException("Here is empty blank");
 
         ChessPiece piece = pieceOptional.get();
-        if (piece.canMoved(to)) {
+        if (piece.canMove(to)) {
             board[to.row()][to.col()] = piece;
             board[from.row()][from.col()] = null;
             piece.moved(to);

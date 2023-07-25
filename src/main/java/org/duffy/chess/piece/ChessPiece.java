@@ -34,6 +34,6 @@ public abstract class ChessPiece {
     }
 
     public abstract List<Location> showMovablePaths();
-    public abstract boolean canMoved(Location destination);
+    public abstract boolean canMove(Location location);
     public abstract String toString();
 }
