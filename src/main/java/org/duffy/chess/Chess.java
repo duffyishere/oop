@@ -24,6 +24,19 @@ public class Chess {
         }
     }
 
+    public boolean canMove(Location from, Location to) {
+        Optional<ChessPiece> fromOptional = getPiece(from);
+        Optional<ChessPiece> pieceOptional = getPiece(to);
+        if (!to.isValid()) return false;
+
+        if (pieceOptional.isEmpty())
+            return true;
+        else if (pieceOptional.isPresent() && pieceOptional.get().getTeam() != fromOptional.get().getTeam())
+            return true;
+        else
+            return false;
+    }
+
     public void move(Location from, Location to) {
         Optional<ChessPiece> pieceOptional = getPiece(from);
         if (pieceOptional.isEmpty())
